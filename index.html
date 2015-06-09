@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minimal Csound Example</title>
+    <script type="text/javascript" src="csound.js"></script>
+    
+    <script type="text/javascript">
+        function moduleDidLoad() {
+            csound.Play();
+            csound.CompileOrc(
+            "instr 1 \n" +
+            "icps = 440 + rnd(440) \n" +
+            "chnset icps, \"freq\" \n" +
+            "a1 oscili 0.1, icps\n" +
+            "outs a1, a1 \n" +
+            "endin");   
+            document.getElementById("tit").innerHTML = "Click on the page below to play";
+        }
+
+        function attachListeners() {
+            document.getElementById("mess").addEventListener("click", Play);
+        }
+
+        function handleMessage(message) {
+            var mess = message.data;
+            if(mess.slice(0, 11) == "::control::") {
+                var messField = document.getElementById("console")
+                messField.innerText = mess.slice(11);
+            } else {
+                var messField = document.getElementById("mess")
+                messField.innerText += mess;
+                csound.RequestChannel("freq");
+            }
+        }
+
+        function Play() {
+            csound.Event("i1 0 5");
+        }
+    </script>
+</head>
+
+<body>
+    <textarea id="orchestraField" hidden>
+    <!--     instr 1
+        Sfile = "./local/soundfile"
+        kPitch chnget "rev"
+        a1 diskin2 Sfile, kPitch, 0, 0
+        outs a1, a1
+        endin -->
+
+        instr 1
+        icps = 440+rnd(440)
+        chnset icps, "freq"
+        a1 oscili 0.1, icps
+        outs a1, a1
+        endin
+    </textarea>
+
+    <div id="console"></div>
+    <h3 id="tit"></h3>
+    <div id="mess"></div>
+    
+    <!--pNaCl csound module-->
+    <div id="engine"></div>
+</body>
+</html>
+
