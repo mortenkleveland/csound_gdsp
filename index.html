@@ -7,6 +7,7 @@
 </head>
 
 <body>
+    <input type="file" id="openFileButton" value="Open file">
     <textarea id="orchestraField" hidden>
     <!--     instr 1
         Sfile = "./local/soundfile"
@@ -16,7 +17,7 @@
         endin -->
 
         instr 1
-        icps = 440+rnd(440)
+        icps = 440 + rnd(440)
         chnset icps, "freq"
         a1 oscili 0.1, icps
         outs a1, a1
@@ -24,7 +25,6 @@
     </textarea>
 
     <div id="console"></div>
-    <h3 id="tit"></h3>
     <div id="mess"></div>
     
     <!--pNaCl csound module-->
