@@ -1,4 +1,6 @@
 
+isPlaying = false;
+
 function moduleDidLoad() {
     setDefaultValues();
     csound.Play();
@@ -9,23 +11,35 @@ function attachListeners() {
     //document.getElementById("mess").addEventListener("click", play);
     document.getElementById("openFileButton").addEventListener("change", handleFileSelect);
     document.getElementById("playButton").addEventListener("click", play);
+    $(document).keydown(function(e) { 
+        if (e.keyCode == 32) {
+            play();
+        }
+    });
 }
 
 function handleMessage(message) {
     var mess = message.data;
     if (mess.slice(0, 11) == "::control::") {
     } else {
-        csound.RequestChannel("freq");
+        csound.RequestChannel("pitch");
     }
 }
 
 function setDefaultValues() {
-    var initValue = 0.0;
-    csound.SetChannel("freq", initValue);
+    var initValue = 1.0;
+    csound.SetChannel("pitch", initValue);
 }
 
 function play() {
-   csound.Event("i1 0 -1");
+    if (isPlaying) {
+        csound.Event("i-1 0 -1");
+        document.getElementById("playButton").value = "Play";
+    } else {
+        csound.Event("i1 0 -1");
+        document.getElementById("playButton").value = "Stop";
+    }
+    isPlaying = !isPlaying
 }
 
 function handleFileSelect(evt) {
@@ -65,10 +79,7 @@ $(function($) {
 
             this.cursorExt = 0.3;
 
-            var a = this.arc(this.cv)  // Arc
-                , pa                   // Previous arc
-                , r = 1;
-
+            var a = this.arc(this.cv), pa, r = 1;
                 this.g.lineWidth = this.lineWidth;
 
                 if (this.o.displayPrevious) {

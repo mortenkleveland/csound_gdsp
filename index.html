@@ -10,6 +10,8 @@
 </head>
 
 <body>
+
+    <div id="">
     <input type="file" id="openFileButton" value="Open file">
     <input type="button" id="playButton" value="Play">
 
@@ -22,10 +24,10 @@
     <textarea id="orchestraField" hidden>
         instr 1
         Sfile = "./local/soundfile"
-        ;kPitch chnget "pitch"
+        kPitch chnget "pitch"
         ;chnset icps, "freq"
         ;a1 oscil .1, 440, -1
-        a1 diskin2 Sfile, 1, 0, 0
+        a1 diskin2 Sfile, kPitch, 0, 1
         outs a1, a1
         endin
     </textarea>
