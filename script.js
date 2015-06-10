@@ -26,6 +26,9 @@ function attachListeners() {
             play();
         }
     });
+    wavesurfer.on('finish', function() {
+        wavesurfer.play(); // Looping
+    });
 }
 
 function handleMessage(message) {
