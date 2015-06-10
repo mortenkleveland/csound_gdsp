@@ -8,24 +8,17 @@
 
 <body>
     <input type="file" id="openFileButton" value="Open file">
+    <input type="button" id="playButton" value="Play">
     <textarea id="orchestraField" hidden>
-    <!--     instr 1
-        Sfile = "./local/soundfile"
-        kPitch chnget "rev"
-        a1 diskin2 Sfile, kPitch, 0, 0
-        outs a1, a1
-        endin -->
-
         instr 1
-        icps = 440 + rnd(440)
-        chnset icps, "freq"
-        a1 oscili 0.1, icps
+        Sfile = "./local/soundfile"
+        ;kPitch chnget "pitch"
+        ;chnset icps, "freq"
+        ;a1 oscil .1, 440, -1
+        a1 diskin2 Sfile, 1, 0, 0
         outs a1, a1
         endin
     </textarea>
-
-    <div id="console"></div>
-    <div id="mess"></div>
     
     <!--pNaCl csound module-->
     <div id="engine"></div>
