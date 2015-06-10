@@ -4,6 +4,7 @@
     <title>Csound GDSP</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="wavesurfer.min.js"></script>
     <script type="text/javascript" src="csound.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <script src="jquery.knob.min.js"></script>
@@ -21,12 +22,18 @@
         <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="-90"> 
     </div>
 
+    <div id="waveform">
+        <div class="progress progress-striped active" id="progress-bar">
+            <div class="progress-bar progress-bar-info"></div>
+        </div>
+
+        <!-- Here be the waveform -->
+    </div>
+
     <textarea id="orchestraField" hidden>
         instr 1
         Sfile = "./local/soundfile"
         kPitch chnget "pitch"
-        ;chnset icps, "freq"
-        ;a1 oscil .1, 440, -1
         a1 diskin2 Sfile, kPitch, 0, 1
         outs a1, a1
         endin

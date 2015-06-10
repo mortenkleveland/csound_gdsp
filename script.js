@@ -1,10 +1,20 @@
 
 isPlaying = false;
 
+// WaveSurfer (Waveform GUI)
+var wavesurfer = Object.create(WaveSurfer);
+
 function moduleDidLoad() {
     setDefaultValues();
     csound.Play();
     csound.CompileOrc(document.getElementById('orchestraField').value);
+    wavesurfer.init({
+        container: document.querySelector('#waveform'),
+        waveColor: 'violet',
+        progressColor: 'purple'
+    });
+    wavesurfer.load("01.wav");
+    wavesurfer.toggleMute();
 }
 
 function attachListeners() {
@@ -34,9 +44,11 @@ function setDefaultValues() {
 function play() {
     if (isPlaying) {
         csound.Event("i-1 0 -1");
+        wavesurfer.stop();
         document.getElementById("playButton").value = "Play";
     } else {
         csound.Event("i1 0 -1");
+        wavesurfer.play();
         document.getElementById("playButton").value = "Stop";
     }
     isPlaying = !isPlaying
@@ -46,13 +58,9 @@ function handleFileSelect(evt) {
     var files = evt.target.files; 
     var f = files[0];
     var objectURL = window.URL.createObjectURL(f);
-    playing = false;
-    if(playing) {
-        csound.Event("i-1 0 1");
-        playing = false;   
-    }
     csound.CopyUrlToLocal(objectURL, "soundfile");
     selected = true;
+    wavesurfer.load(objectURL);
 }
 
 // GUI
@@ -61,6 +69,9 @@ $(function($) {
         change : function (value) {
             csound.SetChannel("pitch", value);
             console.log("change : " + value);
+
+            // Must set waveform position too if changing speed
+            wavesurfer.setPlaybackRate(value);
         },
         release : function (value) {
         //console.log(this.$.attr('value'));
