@@ -16,7 +16,7 @@
     <input type="file" id="openFileButton" value="Open file">
     <input type="button" id="playButton" value="Play">
 
-    <div id="potmeters">
+    <div class="center" id="potmeters">
         <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="1.0" data-min="0.5" data-max="2" data-step=".001">
         <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="-90">
         <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="-90"> 
@@ -29,6 +29,10 @@
 
         <!-- Here be the waveform -->
     </div>
+
+    <p class="lead pull-center center" id="drop">
+        Dra og slipp lydfilen din her.
+    </p>
 
     <textarea id="orchestraField" hidden>
         instr 1

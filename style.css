@@ -7,7 +7,7 @@ body {
     padding-bottom: 20px;
 	margin: 0px 50px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: 300;
+	font-weight: 100;
 	text-rendering: optimizelegibility;
 }
 
@@ -21,11 +21,8 @@ div.demo > p {
 }
 
 #potmeters {
-	position: relative;
 	width: 500px;
 	height: 200px;
-	top: 25%;
-	left: 36%;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -132,9 +129,16 @@ div.demo > p {
 
 #drop {
     border: 3px dashed #ddd;
+    margin-top: 100px;
     padding: 30px;
 }
 
 #drop.wavesurfer-dragover {
     border-color: #333;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
 }

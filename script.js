@@ -21,6 +21,9 @@ function attachListeners() {
     //document.getElementById("mess").addEventListener("click", play);
     document.getElementById("openFileButton").addEventListener("change", handleFileSelect);
     document.getElementById("playButton").addEventListener("click", play);
+    document.getElementById("drop", function(e) {
+        handleFileSelect();
+    });
     $(document).keydown(function(e) { 
         if (e.keyCode == 32) {
             play();
@@ -29,6 +32,16 @@ function attachListeners() {
     wavesurfer.on('finish', function() {
         wavesurfer.play(); // Looping
     });
+
+    var holder = document.getElementById('drop');
+    holder.ondragover = function () { this.className = 'hover'; return false; };
+    holder.ondragend = function () { this.className = ''; return false; };
+    holder.ondrop = function (e) {
+        this.className = '';
+        e.preventDefault();
+        handleFileSelect(e);
+        //readfiles(e.dataTransfer.files);
+    } 
 }
 
 function handleMessage(message) {
@@ -146,3 +159,4 @@ $(function($) {
         }
     });
 });
+
