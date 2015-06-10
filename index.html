@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Minimal Csound Example</title>
+    <title>Csound GDSP</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script type="text/javascript" src="csound.js"></script>
     <script type="text/javascript" src="script.js"></script>
+    <script src="jquery.knob.min.js"></script>
 </head>
 
 <body>
     <input type="file" id="openFileButton" value="Open file">
     <input type="button" id="playButton" value="Play">
+
+    <div id="potmeters">
+        <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="1.0" data-min="0.5" data-max="2" data-step=".001">
+        <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="-90">
+        <input class="knob" data-width="150" data-angleOffset="210" angleArc="240" data-fgColor="#C0ffff" data-skin="tron" data-thickness=".1" value="-90"> 
+    </div>
+
     <textarea id="orchestraField" hidden>
         instr 1
         Sfile = "./local/soundfile"
