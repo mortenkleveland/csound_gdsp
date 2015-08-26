@@ -3,11 +3,17 @@ isPlaying = false;
 
 // WaveSurfer (Waveform GUI)
 var wavesurfer = Object.create(WaveSurfer);
+var userInstanceIsPlaying = false;
+var csoundUserInstance = csound;
+var lol = 1;
 
 function moduleDidLoad() {
     setDefaultValues();
     csound.Play();
     csound.CompileOrc(document.getElementById('orchestraField').value);
+    csound.ReadScore("i99 0 999");
+    csoundUserInstance.CompileOrc(document.getElementById('orchestraField').value);
+    csoundUserInstance.ReadScore("i99 0 999");
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         waveColor: 'violet',
@@ -21,6 +27,7 @@ function attachListeners() {
     //document.getElementById("mess").addEventListener("click", play);
     document.getElementById("openFileButton").addEventListener("change", handleFileSelect);
     document.getElementById("playButton").addEventListener("click", play);
+    document.getElementById("switchInstanceButton").addEventListener("click", mute);
     document.getElementById("drop", function(e) {
         handleFileSelect();
     });
@@ -70,11 +77,23 @@ function play() {
     isPlaying = !isPlaying
 }
 
+function mute() {
+    if(userInstanceIsPlaying) {
+        csoundUserInstance.Pause();
+        csound.Play();
+    } else {
+        csound.Pause();
+        csoundUserInstance.Play();
+    }
+    userInstanceIsPlaying = !userInstanceIsPlaying;
+}
+
 function handleFileSelect(evt) {
     var files = evt.target.files; 
     var f = files[0];
     var objectURL = window.URL.createObjectURL(f);
     csound.CopyUrlToLocal(objectURL, "soundfile");
+    csoundUserInstance.CopyUrlToLocal(objectURL, "soundfile");
     selected = true;
     wavesurfer.load(objectURL);
 }
