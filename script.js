@@ -49,11 +49,11 @@ function attachListeners() {
 }
 
 function handleMessage(message) {
-    // var mess = message.data;
-    // if (mess.slice(0, 11) == "::control::") {
-    // } else {
-    //     csound.RequestChannel("pitch");
-    // }
+    var mess = message.data;
+    if (mess.slice(0, 11) == "::control::") {
+    } else {
+        csound.RequestChannel("pitch");
+    }
 }
 
 function setDefaultValues() {

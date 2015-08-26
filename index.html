@@ -40,19 +40,17 @@
         Sfile = "./local/soundfile"
         kPitch chnget "pitch"
         kAmp chnget "targetSoundAmplitude"
-        a1 diskin2 Sfile, 1, 0, 1
+        a1 diskin2 Sfile, kPitch, 0, 1
         a1 *= kAmp
         outs a1, a1
         ;chnset a1, "masterL"
         endin
 
         instr 2
-
         kAmp chnget "userSoundAmplitude"
         a1 oscil 0.1, 440, -1
         a1 *= kAmp
         outs a1, a1
-
         endin
 
         instr 99
