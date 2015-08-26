@@ -4,7 +4,6 @@ isPlaying = false;
 // WaveSurfer (Waveform GUI)
 var wavesurfer = Object.create(WaveSurfer);
 var userInstanceIsPlaying = false;
-var csoundUserInstance = csound;
 var lol = 1;
 
 function moduleDidLoad() {
@@ -12,8 +11,6 @@ function moduleDidLoad() {
     csound.Play();
     csound.CompileOrc(document.getElementById('orchestraField').value);
     csound.ReadScore("i99 0 999");
-    csoundUserInstance.CompileOrc(document.getElementById('orchestraField').value);
-    csoundUserInstance.ReadScore("i99 0 999");
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         waveColor: 'violet',
@@ -52,25 +49,28 @@ function attachListeners() {
 }
 
 function handleMessage(message) {
-    var mess = message.data;
-    if (mess.slice(0, 11) == "::control::") {
-    } else {
-        csound.RequestChannel("pitch");
-    }
+    // var mess = message.data;
+    // if (mess.slice(0, 11) == "::control::") {
+    // } else {
+    //     csound.RequestChannel("pitch");
+    // }
 }
 
 function setDefaultValues() {
-    var initValue = 1.0;
-    csound.SetChannel("pitch", initValue);
+    csound.SetChannel("pitch", 1.0);
+    csound.SetChannel("targetSoundAmplitude", 1.0);
+    csound.SetChannel("userSoundAmplitude", 0.0);
 }
 
 function play() {
     if (isPlaying) {
         csound.Event("i-1 0 -1");
+        csound.Event("i-2 0 -1");
         wavesurfer.stop();
         document.getElementById("playButton").value = "Play";
     } else {
         csound.Event("i1 0 -1");
+        csound.Event("i2 0 -1");
         wavesurfer.play();
         document.getElementById("playButton").value = "Stop";
     }
@@ -79,11 +79,11 @@ function play() {
 
 function mute() {
     if(userInstanceIsPlaying) {
-        csoundUserInstance.Pause();
-        csound.Play();
+        csound.SetChannel("targetSoundAmplitude", 0.0);
+        csound.SetChannel("userSoundAmplitude", 1.0);
     } else {
-        csound.Pause();
-        csoundUserInstance.Play();
+        csound.SetChannel("targetSoundAmplitude", 1.0);
+        csound.SetChannel("userSoundAmplitude", 0.0);
     }
     userInstanceIsPlaying = !userInstanceIsPlaying;
 }
@@ -93,7 +93,6 @@ function handleFileSelect(evt) {
     var f = files[0];
     var objectURL = window.URL.createObjectURL(f);
     csound.CopyUrlToLocal(objectURL, "soundfile");
-    csoundUserInstance.CopyUrlToLocal(objectURL, "soundfile");
     selected = true;
     wavesurfer.load(objectURL);
 }
