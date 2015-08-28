@@ -101,11 +101,11 @@ function handleFileSelect(evt) {
 $(function($) {
     $(".knob").knob({
         change : function (value) {
-            csound.SetChannel("param1", value);
-            console.log("change : " + value);
-
-            // Must set waveform position too if changing speed
-            wavesurfer.setPlaybackRate(value);
+            if (this.$.attr('id') == "knob1") {
+                csound.SetChannel("param1", value);
+            } else if (this.$.attr('id') == "knob2") {
+                csound.SetChannel("param2", value);
+            }
         },
         release : function (value) {
         //console.log(this.$.attr('value'));
