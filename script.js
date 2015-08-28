@@ -49,15 +49,15 @@ function attachListeners() {
 }
 
 function handleMessage(message) {
-    var mess = message.data;
-    if (mess.slice(0, 11) == "::control::") {
-    } else {
-        csound.RequestChannel("pitch");
-    }
+    // var mess = message.data;
+    // if (mess.slice(0, 11) == "::control::") {
+    // } else {
+    //     csound.RequestChannel("pitch");
+    // }
 }
 
 function setDefaultValues() {
-    csound.SetChannel("pitch", 1.0);
+    csound.SetChannel("param1", 0.5);
     csound.SetChannel("targetSoundAmplitude", 1.0);
     csound.SetChannel("userSoundAmplitude", 0.0);
 }
@@ -101,7 +101,7 @@ function handleFileSelect(evt) {
 $(function($) {
     $(".knob").knob({
         change : function (value) {
-            csound.SetChannel("pitch", value);
+            csound.SetChannel("param1", value);
             console.log("change : " + value);
 
             // Must set waveform position too if changing speed
