@@ -1,13 +1,13 @@
 
 body {
-	background-color: #222;
-	color: #eee;
+	background-color: #FFF;
+	color: #111;
 	padding: 0;
 	padding-top: 20px;
     padding-bottom: 20px;
 	margin: 0px 50px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight: 100;
+	font-weight: 300;
 	text-rendering: optimizelegibility;
 }
 
@@ -128,13 +128,13 @@ div.demo > p {
 }
 
 #drop {
-    border: 3px dashed #ddd;
-    margin-top: 100px;
+    border: 2px dashed #666;
+    margin-top: 200px;
     padding: 30px;
 }
 
 #drop.wavesurfer-dragover {
-    border-color: #333;
+    border-color: #222;
 }
 
 .center {
