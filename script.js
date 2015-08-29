@@ -10,7 +10,9 @@ function moduleDidLoad() {
     setDefaultValues();
     csound.Play();
     csound.CompileOrc(document.getElementById('orchestraField').value);
-    csound.ReadScore("i99 0 999");
+    csound.ReadScore("i10 0 99999999");
+    csound.ReadScore("i90 0 99999999");
+    csound.ReadScore("i99 0 99999999");
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         waveColor: 'violet',
@@ -58,6 +60,7 @@ function handleMessage(message) {
 
 function setDefaultValues() {
     csound.SetChannel("param1", 0.5);
+    csound.SetChannel("param2", 5000);
     csound.SetChannel("targetSoundAmplitude", 1.0);
     csound.SetChannel("userSoundAmplitude", 0.0);
 }
