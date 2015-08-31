@@ -14,13 +14,13 @@
 
     <div id="">
     <input type="file" id="openFileButton" value="Open file">
-    <input type="button" id="playButton" value="Play">
+    <input type="image" id="playPauseButton" src="assets/play.png" style="outline: none; width: 60px;" />
     <input type="button" id="switchInstanceButton" value="A/B">
 
     <div class="center" id="potmeters">
-        <input id="knob1" class="knob" data-width="150" data-angleArc="300" data-angleOffset="-150" angleArc="100" data-fgColor="#111" data-thickness=".1" value="0.5" data-min="0" data-max="1" data-step=".001">
-        <input id="knob2" class="knob" data-width="150" data-angleArc="300" data-angleOffset="-150" angleArc="100" data-fgColor="#111" data-thickness=".1" value="5000" data-min="1000" data-max="12000" data-step="1">
-        <input id="knob3" class="knob" data-width="150" data-angleArc="300" data-angleOffset="-150" angleArc="100" data-fgColor="#111" data-thickness=".1" value="-90"> 
+        <input id="knob1" class="knob" data-width="150" data-angleArc="300" data-angleOffset="-150" angleArc="100" data-fgColor="#717D8C" data-thickness=".1" value="0.5" data-min="0" data-max="1" data-step=".001">
+        <input id="knob2" class="knob" data-width="150" data-angleArc="300" data-angleOffset="-150" angleArc="100" data-fgColor="#717D8C" data-thickness=".1" value="5000" data-min="1000" data-max="12000" data-step="1">
+        <input id="knob3" class="knob" data-width="150" data-angleArc="300" data-angleOffset="-150" angleArc="100" data-fgColor="#717D8C" data-thickness=".1" value="0" data-min="0" data-max="250" data-step="1"> 
     </div>
 
     <div id="waveform">
@@ -31,9 +31,9 @@
         <!-- Here be the waveform -->
     </div>
 
-    <p class="lead pull-center center" id="drop">
+<!--     <p class="lead pull-center center" id="drop">
         Dra og slipp lydfilen din her.
-    </p>
+    </p> -->
 
     <textarea id="orchestraField" hidden>
         instr 1
@@ -41,7 +41,7 @@
             kAmp chnget "targetSoundAmplitude"
             aDry diskin2 Sfile, 1, 0, 1
             aDry *= kAmp
-            aDry *= 0.5
+            aDry *= 0.4
             chnset aDry, "reverbLTarget"
             chnset aDry, "reverbRTarget"
         endin
@@ -53,20 +53,33 @@
             kAmp chnget "userSoundAmplitude"
             aDry diskin2 Sfile, 1, 0, 1
             aDry *= kAmp
-            aDry *= 0.5
+            aDry *= 0.4
             chnset aDry * sqrt(kParam1), "reverbL"
             chnset aDry * sqrt(kParam1), "reverbR"
             chnset aDry * sqrt(1 - kParam1), "masterL"
             chnset aDry * sqrt(1 - kParam1), "masterR"
         endin
 
-        ; Static target effects
+        ; Target effects
         instr 10
             aDryL chnget "reverbLTarget"
             aDryR chnget "reverbRTarget"
-            kParam1 = 0.1
-            kParam2 = 4000
-            aWetL, aWetR reverbsc aDryL, aDryR, kParam1, kParam2
+            kParam1 = 0.6
+            kParam2 = 3000
+            kParam3 = 50 ; ms
+
+            ; Predelay
+            kParam3 *= 0.001
+
+            aDummyL delayr 2
+            aDelayedL deltapi kParam3
+            delayw aDryL
+
+            aDummyR delayr 2
+            aDelayedR deltapi kParam3
+            delayw aDryR
+
+            aWetL, aWetR reverbsc aDelayedL, aDelayedR, kParam1, kParam2
             chnmix aDryL * sqrt(1 - kParam1), "masterL"
             chnmix aDryR * sqrt(1 - kParam1), "masterR"
             chnmix aWetL * sqrt(kParam1), "masterL"
@@ -75,13 +88,26 @@
             chnclear "reverbRTarget"
         endin
 
-        ; User realtime tweakable effects
+        ; User realtime effects
         instr 90
             aL chnget "reverbL"
             aR chnget "reverbR"
             kParam1 chnget "param1"
             kParam2 chnget "param2"
-            aWetL, aWetR reverbsc aL, aR, kParam1, kParam2
+            kParam3 chnget "param3"
+
+            ; Predelay
+            kParam3 *= 0.001
+
+            aDummyL delayr 2
+            aDelayedL deltapi kParam3
+            delayw aL
+
+            aDummyR delayr 2
+            aDelayedR deltapi kParam3
+            delayw aR
+
+            aWetL, aWetR reverbsc aDelayedL, aDelayedR, kParam1, kParam2
             chnmix aWetL, "masterL"
             chnmix aWetR, "masterR"
             chnclear "reverbL"

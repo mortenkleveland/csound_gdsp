@@ -15,8 +15,8 @@ function moduleDidLoad() {
     csound.ReadScore("i99 0 99999999");
     wavesurfer.init({
         container: document.querySelector('#waveform'),
-        waveColor: 'violet',
-        progressColor: 'purple'
+        waveColor: '#96C0CE',
+        progressColor: '#525564'
     });
     wavesurfer.load("01.wav");
     wavesurfer.toggleMute();
@@ -25,11 +25,11 @@ function moduleDidLoad() {
 function attachListeners() {
     //document.getElementById("mess").addEventListener("click", play);
     document.getElementById("openFileButton").addEventListener("change", handleFileSelect);
-    document.getElementById("playButton").addEventListener("click", play);
+    document.getElementById("playPauseButton").addEventListener("click", play);
     document.getElementById("switchInstanceButton").addEventListener("click", mute);
-    document.getElementById("drop", function(e) {
-        handleFileSelect();
-    });
+    // document.getElementById("drop", function(e) {
+    //     handleFileSelect();
+    // });
     $(document).keydown(function(e) { 
         if (e.keyCode == 32) {
             play();
@@ -39,15 +39,15 @@ function attachListeners() {
         wavesurfer.play(); // Looping
     });
 
-    var holder = document.getElementById('drop');
-    holder.ondragover = function () { this.className = 'hover'; return false; };
-    holder.ondragend = function () { this.className = ''; return false; };
-    holder.ondrop = function (e) {
-        this.className = '';
-        e.preventDefault();
-        handleFileSelect(e);
-        //readfiles(e.dataTransfer.files);
-    } 
+    // var holder = document.getElementById('drop');
+    // holder.ondragover = function () { this.className = 'hover'; return false; };
+    // holder.ondragend = function () { this.className = ''; return false; };
+    // holder.ondrop = function (e) {
+    //     this.className = '';
+    //     e.preventDefault();
+    //     handleFileSelect(e);
+    //     //readfiles(e.dataTransfer.files);
+    // } 
 }
 
 function handleMessage(message) {
@@ -61,6 +61,7 @@ function handleMessage(message) {
 function setDefaultValues() {
     csound.SetChannel("param1", 0.5);
     csound.SetChannel("param2", 5000);
+    csound.SetChannel("param3", 10);
     csound.SetChannel("targetSoundAmplitude", 1.0);
     csound.SetChannel("userSoundAmplitude", 0.0);
 }
@@ -70,12 +71,12 @@ function play() {
         csound.Event("i-1 0 -1");
         csound.Event("i-2 0 -1");
         wavesurfer.stop();
-        document.getElementById("playButton").value = "Play";
+        document.getElementById("playPauseButton").src = "assets/play.png";
     } else {
         csound.Event("i1 0 -1");
         csound.Event("i2 0 -1");
         wavesurfer.play();
-        document.getElementById("playButton").value = "Stop";
+        document.getElementById("playPauseButton").src = "assets/pause.png";
     }
     isPlaying = !isPlaying
 }
@@ -108,6 +109,8 @@ $(function($) {
                 csound.SetChannel("param1", value);
             } else if (this.$.attr('id') == "knob2") {
                 csound.SetChannel("param2", value);
+            } else if (this.$.attr('id') == "knob3") {
+                csound.SetChannel("param3", value);
             }
         },
         release : function (value) {
