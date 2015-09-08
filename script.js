@@ -8,11 +8,20 @@ var lol = 1;
 
 function moduleDidLoad() {
     setDefaultValues();
-    csound.Play();
-    csound.CompileOrc(document.getElementById('orchestraField').value);
-    csound.ReadScore("i10 0 99999999");
-    csound.ReadScore("i90 0 99999999");
-    csound.ReadScore("i99 0 99999999");
+    //csound.Play();
+    //csound.CompileOrc(document.getElementById('orchestraField').value);
+
+    // Using .csd file
+    // csound.CopyToLocal("test.csd", "test.csd");
+    // csound.RequestFileFromLocal("test.csd");
+    // csound.PlayCsd("test.csd");
+    // csound.Play();
+
+    csound.PlayCsd("http/sine.csd");
+
+    //csound.ReadScore("i10 0 99999999");
+    //csound.ReadScore("i90 0 99999999");
+    //csound.ReadScore("i99 0 99999999");
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         waveColor: '#96C0CE',
@@ -50,13 +59,20 @@ function attachListeners() {
     // } 
 }
 
-function handleMessage(message) {
-    // var mess = message.data;
-    // if (mess.slice(0, 11) == "::control::") {
-    // } else {
-    //     csound.RequestChannel("pitch");
-    // }
-}
+ function handleMessage(message) {
+  var mess = message.data;
+  if(mess == "finished render"){
+      ReadFile();
+      return;
+  } else if(mess == "Complete"){
+      //saveFile();
+      //scrollTo(0, messField.scrollHeight);
+      return;
+  }
+   var messField = document.getElementById("mess")
+   messField.innerText += mess;
+   scrollTo(0, messField.scrollHeight);
+ }
 
 function setDefaultValues() {
     csound.SetChannel("param1", 0.5);
