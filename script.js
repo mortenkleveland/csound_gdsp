@@ -12,11 +12,6 @@ function moduleDidLoad() {
     //csound.CompileOrc(document.getElementById('orchestraField').value);
 
     // Using .csd file
-    // csound.CopyToLocal("test.csd", "test.csd");
-    // csound.RequestFileFromLocal("test.csd");
-    // csound.PlayCsd("test.csd");
-    // csound.Play();
-
     csound.PlayCsd("http/sine.csd");
 
     //csound.ReadScore("i10 0 99999999");
