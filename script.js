@@ -8,15 +8,11 @@ var lol = 1;
 
 function moduleDidLoad() {
     setDefaultValues();
-    //csound.Play();
-    //csound.CompileOrc(document.getElementById('orchestraField').value);
 
-    // Using .csd file
-    csound.PlayCsd("http/sine.csd");
+    // Sound generation with Csound
+    csound.PlayCsd("http/effects.csd");
 
-    //csound.ReadScore("i10 0 99999999");
-    //csound.ReadScore("i90 0 99999999");
-    //csound.ReadScore("i99 0 99999999");
+    // Visuals
     wavesurfer.init({
         container: document.querySelector('#waveform'),
         waveColor: '#96C0CE',
@@ -27,7 +23,6 @@ function moduleDidLoad() {
 }
 
 function attachListeners() {
-    //document.getElementById("mess").addEventListener("click", play);
     document.getElementById("openFileButton").addEventListener("change", handleFileSelect);
     document.getElementById("playPauseButton").addEventListener("click", play);
     document.getElementById("switchInstanceButton").addEventListener("click", mute);
@@ -73,8 +68,8 @@ function setDefaultValues() {
     csound.SetChannel("param1", 0.5);
     csound.SetChannel("param2", 5000);
     csound.SetChannel("param3", 10);
-    csound.SetChannel("targetSoundAmplitude", 1.0);
-    csound.SetChannel("userSoundAmplitude", 0.0);
+    csound.SetChannel("targetAmplitude", 1.0);
+    csound.SetChannel("userAmplitude", 0.0);
 }
 
 function play() {
@@ -94,13 +89,14 @@ function play() {
 
 function mute() {
     if(userInstanceIsPlaying) {
-        csound.SetChannel("targetSoundAmplitude", 0.0);
-        csound.SetChannel("userSoundAmplitude", 1.0);
+        csound.SetChannel("targetAmplitude", 0.0);
+        csound.SetChannel("userAmplitude", 1.0);
     } else {
-        csound.SetChannel("targetSoundAmplitude", 1.0);
-        csound.SetChannel("userSoundAmplitude", 0.0);
+        csound.SetChannel("targetAmplitude", 1.0);
+        csound.SetChannel("userAmplitude", 0.0);
     }
     userInstanceIsPlaying = !userInstanceIsPlaying;
+    console.log(userInstanceIsPlaying);
 }
 
 function handleFileSelect(evt) {
