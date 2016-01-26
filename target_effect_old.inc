@@ -1,11 +1,11 @@
-instr 90
+instr 10
 
-	aDryL chnget "reverbL"
-	aDryR chnget "reverbR"
-	kParam1 chnget "param1"
-	kParam2 chnget "param2"
-	kParam3 chnget "param3"
-	kParam4 chnget "param4" ; Mix
+	aDryL chnget "target_effect_left"
+	aDryR chnget "target_effect_right"
+	kParam1 = 0.9
+	kParam2 = 3000
+	kParam3 = 100 ; ms
+	kParam4 = 0.5 ; mix
 
 	; Predelay
 	kParam3 *= 0.001
@@ -24,7 +24,7 @@ instr 90
 	chnmix aDryR * sqrt(1 - kParam4), "masterR"
 	chnmix aWetL * sqrt(kParam4), "masterL"
 	chnmix aWetR * sqrt(kParam4), "masterR"
-	chnclear "reverbL"
-	chnclear "reverbR"
+	chnclear "target_effect_left"
+	chnclear "target_effect_right"
 
 endin

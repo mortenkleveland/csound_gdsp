@@ -6,6 +6,10 @@ var wavesurfer = Object.create(WaveSurfer);
 var userInstanceIsPlaying = false;
 var lol = 1;
 
+$(document).ready(function() {
+    $('#body').show();
+});
+
 function moduleDidLoad() {
     setDefaultValues();
 
@@ -15,8 +19,8 @@ function moduleDidLoad() {
     // Visuals
     wavesurfer.init({
         container: document.querySelector('#waveform'),
-        waveColor: '#96C0CE',
-        progressColor: '#525564'
+        waveColor: '#00b2a9',
+        progressColor: '#00b2a9'
     });
     wavesurfer.load("01.wav");
     wavesurfer.toggleMute();
@@ -60,14 +64,17 @@ function attachListeners() {
       return;
   }
    var messField = document.getElementById("mess")
-   messField.innerText += mess;
-   scrollTo(0, messField.scrollHeight);
+   if(messField) {
+        messField.innerText += mess;
+        scrollTo(0, messField.scrollHeight);
+    }
  }
 
 function setDefaultValues() {
     csound.SetChannel("param1", 0.5);
     csound.SetChannel("param2", 5000);
     csound.SetChannel("param3", 10);
+    csound.SetChannel("param4", 0.5);
     csound.SetChannel("targetAmplitude", 1.0);
     csound.SetChannel("userAmplitude", 0.0);
 }
@@ -118,6 +125,8 @@ $(function($) {
                 csound.SetChannel("param2", value);
             } else if (this.$.attr('id') == "knob3") {
                 csound.SetChannel("param3", value);
+            } else if (this.$.attr('id') == "knob4") {
+                csound.SetChannel("param4", value);
             }
         },
         release : function (value) {
@@ -191,3 +200,16 @@ $(function($) {
     });
 });
 
+// Dragging
+$(function() {
+    $('.sortable').sortable();
+    $('.handles').sortable({
+        handle: 'span'
+    });
+    $('.connected').sortable({
+        connectWith: '.connected'
+    });
+    $('.exclude').sortable({
+        items: ':not(.disabled)'
+    });
+});

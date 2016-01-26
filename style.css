@@ -21,8 +21,7 @@ div.demo > p {
 }
 
 #potmeters {
-	width: 500px;
-	height: 200px;
+	height: 130px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -115,6 +114,7 @@ div.demo > p {
 }
 
 #waveform {
+    width: 100%;
     position: relative;
 }
 
@@ -138,7 +138,79 @@ div.demo > p {
 }
 
 .center {
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
+  position: relative;
+  text-align:center;
+  border-radius: 12px;
+/*  border: 2px solid #00b2a9;
+*/  overflow: hidden;
 }
+
+.content {
+  width: 570px;
+  position: relative;
+}
+
+.block {
+    display:inline-block !important;
+    margin: 7px;
+}
+
+/*Draggable*/
+#features {
+    margin: auto;
+    width: 570px;
+    font-size: 0.9em;
+}
+.connected, .sortable, .exclude, .handles {
+    margin: auto;
+    padding: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.sortable.grid {
+    overflow: hidden;
+}
+.connected li, .sortable li, .exclude li, .handles li {
+    list-style: none;
+/*    border: 1px solid #CCC;
+    background: #FCFCFC;
+    font-family: "Tahoma";
+    color: #1C94C4;*/
+    margin: 5px;
+    padding: 5px;
+    height: 110px;
+}
+.handles span {
+    cursor: move;
+}
+.sortable.grid li {
+    line-height: 80px;
+    float: left;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+}
+li.highlight {
+    background: #FEE25F;
+}
+#connected {
+    width: 440px;
+    overflow: hidden;
+    margin: auto;
+}
+.connected {
+    float: left;
+    width: 200px;
+}
+.connected.no2 {
+    float: right;
+}
+li.sortable-placeholder {
+    border: 1px dashed #CCC;
+    background: none;
+}
+

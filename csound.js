@@ -20,7 +20,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
 var csound = (function() {
 
   /**
@@ -42,7 +41,7 @@ var csound = (function() {
    * Attaches handlers for events
    */
   function attachDefaultListeners() {
-    var csoundhook= document.getElementById('engine');
+    var csoundhook = document.getElementById('engine');
     csoundhook.addEventListener('load', moduleDidLoad, true);
     csoundhook.addEventListener('message', handleMessage, true);
     csoundhook.addEventListener('crash', handleCrash, true);
@@ -256,10 +255,10 @@ var csound = (function() {
     function MIDIin(byte1, byte2, byte3){
         if(byte1 < 128 || byte1 > 255) return;
         if(byte2 < 0 || byte2 > 127) return;
-	if(byte3 < 0 || byte3 > 127) return;
-	var mess1 = 'midi:' + byte1;
-	var mess2 = ':' + byte2;
-	var mess3 = ':' + byte3;
+	       if(byte3 < 0 || byte3 > 127) return;
+	       var mess1 = 'midi:' + byte1;
+	       var mess2 = ':' + byte2;
+	       var mess3 = ':' + byte3;
         csound.module.postMessage(mess1+mess2+mess3);
     }
     
@@ -498,7 +497,6 @@ var csound = (function() {
 }());
 
 document.addEventListener('DOMContentLoaded', function() {
-
      csound.updateStatus('page loaded');
      if (!(navigator.mimeTypes['application/x-pnacl'] !== undefined)) {
         csound.updateStatus('No support for pNaCl (maybe disabled?)');
