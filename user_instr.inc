@@ -1,6 +1,7 @@
 instr 2
 
 	Sfile = "./local/soundfile"
+	iNumChannels filenchnls Sfile
 	kParam1 chnget "param1" 
 	kParam2 chnget "param2"
 	kAmp chnget "userAmplitude"
