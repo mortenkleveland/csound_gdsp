@@ -17,7 +17,7 @@ instr 1
 	elseif iNumChannels == 2 then
 		aDryL, aDryR diskin2 Sfile, 1, 0, 1
 	endif
-	
+
 	aDryL *= kAmp
 	aDryR *= kAmp
 	aDryL *= iAmplitudeScaling

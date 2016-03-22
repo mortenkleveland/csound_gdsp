@@ -5,16 +5,30 @@ isPlaying = false;
 var wavesurfer = Object.create(WaveSurfer);
 var userInstanceIsPlaying = false;
 var lol = 1;
+var audioBuffer = 0;
+var audioContext;
+var blob;
 
 $(document).ready(function() {
     $('#body').show();
+    try {
+        // the AudioContext is the primary container for all audio  objects
+        audioContext = new AudioContext();
+    }
+    catch(e) {
+        alert('Web Audio API is not supported in this browser');
+    }
 });
 
 function moduleDidLoad() {
     setDefaultValues();
 
-    // Sound generation with Csound
-    csound.PlayCsd("http/effects.csd");
+    localStorage.clear();
+    loadAudio("02.wav");
+
+    // csound.CopyToLocal("01.wav", "soundfile");
+    csound.CopyUrlToLocal("http://folk.ntnu.no/mortengk/csound/effects_combined.csd", "csd") 
+    csound.PlayCsd('local/csd');
 
     // Visuals
     wavesurfer.init({
@@ -22,7 +36,7 @@ function moduleDidLoad() {
         waveColor: '#00b2a9',
         progressColor: '#00b2a9'
     });
-    wavesurfer.load("01.wav");
+    wavesurfer.load("02.wav");
     wavesurfer.toggleMute();
 }
 
@@ -113,6 +127,29 @@ function handleFileSelect(evt) {
     csound.CopyUrlToLocal(objectURL, "soundfile");
     selected = true;
     wavesurfer.load(objectURL);
+}
+
+function loadAudio(url) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.responseType = 'arraybuffer';
+    // When loaded decode the data and store the audio buffer in memory
+    request.onload = function() {
+        audioContext.decodeAudioData(request.response, function(buffer) {
+            audioBuffer = buffer;
+
+            // Creating a blob to store binary audio data
+            blob = new Blob([request.response], {type: "audio/wav"});
+            var objectURL = window.URL.createObjectURL(blob);
+            csound.CopyUrlToLocal(objectURL, "soundfile");
+
+        }, onError);
+    }
+    request.send();
+}
+
+function onError(e) {
+    console.log(e);
 }
 
 // GUI

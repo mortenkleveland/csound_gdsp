@@ -155,7 +155,7 @@ div.demo > p {
     margin: 7px;
 }
 
-/*Draggable*/
+/* Draggable */
 #features {
     margin: auto;
     width: 570px;
@@ -182,7 +182,7 @@ div.demo > p {
     color: #1C94C4;*/
     margin: 5px;
     padding: 5px;
-    height: 110px;
+    height: 130px;
 }
 .handles span {
     cursor: move;
@@ -213,4 +213,3 @@ li.sortable-placeholder {
     border: 1px dashed #CCC;
     background: none;
 }
-
